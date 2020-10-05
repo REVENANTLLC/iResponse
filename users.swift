@@ -8,21 +8,16 @@ do {
     
     let defaultAuthority = CSGetLocalIdentityAuthority().takeUnretainedValue()
     let identityClass = kCSIdentityClassUser
-
     let query   = CSIdentityQueryCreate(nil, identityClass, defaultAuthority).takeRetainedValue()
-
     var error : Unmanaged<CFError>? = nil
 
     CSIdentityQueryExecute(query, 0, &error)
 
     let results = CSIdentityQueryCopyResults(query).takeRetainedValue()
-
     let resultsCount = CFArrayGetCount(results)
-
     var allUsersArray = [CBIdentity]()
 
     for idx in 0...resultsCount-1 {
-
         let identity    = unsafeBitCast(CFArrayGetValueAtIndex(results,idx),to: CSIdentity.self)
         let uuidString  = CFUUIDCreateString(nil, CSIdentityGetUUID(identity).takeUnretainedValue())
 
